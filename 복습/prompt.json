@@ -1,0 +1,7 @@
+{
+    "_type": "prompt",
+    "template": "what is the capital of {country}?",
+    "input_variables": [
+        "country"
+    ]
+}
