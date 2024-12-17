@@ -5,5 +5,6 @@
     "notebook.formatOnSave.enabled": true,
     "notebook.lineNumbers": "on",
     "editor.wordWrap": "on",
-    "notebook.output.scrolling": true
+    "notebook.output.scrolling": true,
+    "chat.editor.wordWrap": "on"
 }
