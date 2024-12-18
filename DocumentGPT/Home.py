@@ -16,7 +16,6 @@ model = st.selectbox(
 st.write(model)
 
 
-
 name = st.text_input("What is your name")
 st.write(name)
 
@@ -26,3 +25,22 @@ value = st.slider(
     max_value=1.0,
 )
 st.write(value)
+
+# 사이드바
+st.sidebar.title("sidebar title")
+st.sidebar.text_input("xxx")
+
+# 사이드바 - with keyword
+with st.sidebar:
+    st.title("hello")
+    st.text_input("sidebar with 'with keyword'")
+
+tab_1, tab_2, tab_3 = st.tabs(["a", "b", "c"])
+with tab_1:
+    st.write("a")
+
+with tab_2:
+    st.write("b")
+
+with tab_3:
+    st.write("c")
