@@ -28,6 +28,11 @@ class ChatCallbackHandler(BaseCallbackHandler):
         self.message_box.markdown(self.message)
 
 
+def folder_exist(folder_path):
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+
 def validate_api_key(api_key):
     """API 키의 유효성을 검사합니다."""
     try:
@@ -52,7 +57,12 @@ def load_openai_api_key():
 
     with st.sidebar:
         st.markdown("## OpenAI API 설정")
-        api_key = st.text_input("OpenAI API 키를 입력하세요:", type="password", help="OpenAI API 키는 안전하게 저장되며 세션 내에서만 사용됩니다.", key="openai_api_key")
+        api_key = st.text_input(
+            "OpenAI API 키를 입력하세요:",
+            type="password",
+            help="OpenAI API 키는 안전하게 저장되며 세션 내에서만 사용됩니다.",
+            key="openai_api_key",
+        )
 
         if api_key:
             # API 키 유효성 검사
@@ -112,10 +122,14 @@ if "messages" not in st.session_state:
 def embed_file(file):
     try:
         file_content = file.read()
-        file_path = f"./.cache/files/{file.name}"
+        file_folder = "./.cache/files"
+        folder_exist(file_folder)
+        file_path = f"{file_folder}/{file.name}"
         with open(file_path, "wb") as f:
             f.write(file_content)
-        cache_dir = LocalFileStore(f"./.cache/embeddings/{file.name}")
+        cache_folder = "./.cache/embeddings"
+        folder_exist(cache_folder)
+        cache_dir = LocalFileStore(f"{cache_folder}/{file.name}")
         splitter = CharacterTextSplitter.from_tiktoken_encoder(
             separator="\n",
             chunk_size=600,
@@ -124,7 +138,9 @@ def embed_file(file):
         loader = UnstructuredFileLoader(file_path)
         docs = loader.load_and_split(text_splitter=splitter)
         embeddings = OpenAIEmbeddings()
-        cached_embeddings = CacheBackedEmbeddings.from_bytes_store(embeddings, cache_dir)
+        cached_embeddings = CacheBackedEmbeddings.from_bytes_store(
+            embeddings, cache_dir
+        )
         vectorstore = FAISS.from_documents(docs, cached_embeddings)
         retriever = vectorstore.as_retriever()
         return retriever
@@ -197,7 +213,9 @@ if is_api_key_configured:
         )
 
         with st.sidebar:
-            file = st.file_uploader("Upload a .txt .pdf or .docx file", type=["pdf", "txt", "docx"])
+            file = st.file_uploader(
+                "Upload a .txt .pdf or .docx file", type=["pdf", "txt", "docx"]
+            )
 
         if file:
             retriever = embed_file(file)
