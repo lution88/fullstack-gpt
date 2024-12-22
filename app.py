@@ -188,11 +188,11 @@ prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-st.title("Document GPT")
+st.title("Quiz GPT")
 
 st.markdown(
     """
-Welcome!
+Welcome!!!
 
 Use this chatbot to ask questions to an AI about your files!
 
