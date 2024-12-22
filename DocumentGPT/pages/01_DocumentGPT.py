@@ -17,9 +17,9 @@ class ChatCallbackHandler(BaseCallbackHandler):
     message = ""
 
     def on_llm_start(self, *args, **kwargs):
-        '''llm이 언제 토큰을 생성하기 시작하는지
+        """llm이 언제 토큰을 생성하기 시작하는지
         - llm이 새 토큰을 생성하기 시작하면, 화면에 empty box를 생성한다.
-        '''
+        """
         # with st.sidebar:
         #     st.write("llm started!")
         self.message_box = st.empty()  # 빈 위젯
@@ -134,7 +134,9 @@ Upload your files on the sidebar.
 )
 
 with st.sidebar:
-    file = st.file_uploader("Upload a .txt .pdf or .docx file", type=["pdf", "txt", "docx"])
+    file = st.file_uploader(
+        "Upload a .txt .pdf or .docx file", type=["pdf", "txt", "docx"]
+    )
 
 if file:
     retriever = embed_file(file)
