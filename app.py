@@ -110,7 +110,7 @@ def process_message(message, chain):
 
 
 st.set_page_config(
-    page_title="DocumentGPT",
+    page_title="QuizGPT",
     page_icon="🤖",
 )
 
